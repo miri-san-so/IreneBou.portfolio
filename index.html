@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Irene Bou • Portfolio</title>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body class="">
+		<div class="header">
+			<div class="block"></div>
+		</div>
+
+		<nav>
+			<div class="logo">
+				<svg
+					width="22"
+					height="44"
+					viewBox="0 0 22 44"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M9 1.98438L11.6667 1H8.33333V10.1875H9V1.98438Z"
+						fill="black"
+					/>
+					<path
+						d="M5.66667 43H9V34.1406H8.33333V41.3594L5.66667 43Z"
+						fill="black"
+					/>
+					<path
+						d="M12 19.7031C14.6667 19.7031 16.2222 17.2969 16.3333 16.0938C16.3333 15.6562 16.3333 14.5844 16.3333 13.7969C16.3333 11.6969 13.8889 10.5156 12.6667 10.1875H9M12 19.7031C9.33333 19.7031 3.55556 19.7031 1 19.7031M12 19.7031C18.6667 18.7188 20.8889 23.4219 21 25.2812C21 25.6094 21 26.6594 21 28.2344C21 31.9094 17 33.7031 15 34.1406H9M1 19.7031V10.1875H8.33333M1 19.7031V34.1406H8.33333M8.33333 10.1875V1H11.6667L9 1.98438V10.1875M8.33333 10.1875H9M8.33333 10.1875V34.1406M9 10.1875V34.1406M9 34.1406V43H5.66667L8.33333 41.3594V34.1406M9 34.1406H8.33333"
+						stroke="black"
+						stroke-width="2"
+					/>
+				</svg>
+			</div>
+			<div class="links">
+				<a href="#">work</a>
+				<a href="#">blogs</a>
+			</div>
+		</nav>
+
+		<!-- Position : Absolute -->
+
+		<div class="leaves falling-leaves">
+			<div class="hero">
+				<img src="./images/hero.png" alt="" />
+				<h1>
+					<span>I</span><span>r</span><span>e</span><span>n</span><span>e&nbsp;</span><span>B</span><span>o</span><span>u</span>
+					<!-- Irene Bou -->
+				</h1>
+				<h3>
+					I am a Design student in Spain producing a variety of
+					multidisciplinary design projects, and aspiring to be a UI/UX
+					designer.
+				</h3>
+				<img src="./images/hero.png" class="overlay" alt="" />
+			</div>
+		</div>
+
+		<div class="socials">
+			<a href="#"><img src="./images/fb.png" alt="" /></a>
+			<a href="#"><img src="./images/twitter.png" alt="" /></a>
+			<a href="#"><img src="./images/instagram.png" alt="" /></a>
+			<svg
+				width="2"
+				height="80"
+				viewBox="0 0 2 80"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<line
+					x1="1"
+					y1="154"
+					x2="1.00002"
+					y2="-1.31134e-07"
+					stroke="black"
+					stroke-width="2"
+				/>
+			</svg>
+		</div>
+
+		<div class="mail">
+			<a href="#"><img src="./images/Envelope.png" alt="" /></a>
+		</div>
+
+		<!-- <div class="falling-leaves"></div> -->
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+		<script>
+			const div = document.getElementsByTagName("h1");
+			console.log(div[0]);
+			TweenMax.staggerFrom(div[0].children, 0.45, { y: 50, opacity: 0 }, 0.15);
+
+			var LeafScene = function (el) {
+				this.viewport = el;
+				this.world = document.createElement("div");
+				this.leaves = [];
+
+				this.options = {
+					numLeaves: 20,
+					wind: {
+						magnitude: 1.2,
+						maxSpeed: 12,
+						duration: 300,
+						start: 0,
+						speed: 0,
+					},
+				};
+
+				this.width = this.viewport.offsetWidth;
+				this.height = this.viewport.offsetHeight;
+
+				// animation helper
+				this.timer = 0;
+
+				this._resetLeaf = function (leaf) {
+					// place leaf towards the top left
+					leaf.x = this.width * 2 - Math.random() * this.width * 1.75;
+					leaf.y = -10;
+					leaf.z = Math.random() * 200;
+					if (leaf.x > this.width) {
+						leaf.x = this.width + 10;
+						leaf.y = (Math.random() * this.height) / 2;
+					}
+					// at the start, the leaf can be anywhere
+					if (this.timer == 0) {
+						leaf.y = Math.random() * this.height;
+					}
+
+					// Choose axis of rotation.
+					// If axis is not X, chose a random static x-rotation for greater variability
+					leaf.rotation.speed = Math.random() * 10;
+					var randomAxis = Math.random();
+					if (randomAxis > 0.5) {
+						leaf.rotation.axis = "X";
+					} else if (randomAxis > 0.25) {
+						leaf.rotation.axis = "Y";
+						leaf.rotation.x = Math.random() * 180 + 90;
+					} else {
+						leaf.rotation.axis = "Z";
+						leaf.rotation.x = Math.random() * 360 - 180;
+						// looks weird if the rotation is too fast around this axis
+						leaf.rotation.speed = Math.random() * 3;
+					}
+
+					// random speed
+					leaf.xSpeedVariation = Math.random() * 0.8 - 0.4;
+					leaf.ySpeed = Math.random() + 1.5;
+
+					return leaf;
+				};
+
+				this._updateLeaf = function (leaf) {
+					var leafWindSpeed = this.options.wind.speed(
+						this.timer - this.options.wind.start,
+						leaf.y
+					);
+
+					var xSpeed = leafWindSpeed + leaf.xSpeedVariation;
+					leaf.x -= xSpeed;
+					leaf.y += leaf.ySpeed;
+					leaf.rotation.value += leaf.rotation.speed;
+
+					var t =
+						"translateX( " +
+						leaf.x +
+						"px ) translateY( " +
+						leaf.y +
+						"px ) translateZ( " +
+						leaf.z +
+						"px )  rotate" +
+						leaf.rotation.axis +
+						"( " +
+						leaf.rotation.value +
+						"deg )";
+					if (leaf.rotation.axis !== "X") {
+						t += " rotateX(" + leaf.rotation.x + "deg)";
+					}
+					leaf.el.style.webkitTransform = t;
+					leaf.el.style.MozTransform = t;
+					leaf.el.style.oTransform = t;
+					leaf.el.style.transform = t;
+
+					// reset if out of view
+					if (leaf.x < -10 || leaf.y > this.height + 10) {
+						this._resetLeaf(leaf);
+					}
+				};
+
+				this._updateWind = function () {
+					// wind follows a sine curve: asin(b*time + c) + a
+					// where a = wind magnitude as a function of leaf position, b = wind.duration, c = offset
+					// wind duration should be related to wind magnitude, e.g. higher windspeed means longer gust duration
+
+					if (
+						this.timer === 0 ||
+						this.timer > this.options.wind.start + this.options.wind.duration
+					) {
+						this.options.wind.magnitude =
+							Math.random() * this.options.wind.maxSpeed;
+						this.options.wind.duration =
+							this.options.wind.magnitude * 50 + (Math.random() * 20 - 10);
+						this.options.wind.start = this.timer;
+
+						var screenHeight = this.height;
+
+						this.options.wind.speed = function (t, y) {
+							// should go from full wind speed at the top, to 1/2 speed at the bottom, using leaf Y
+							var a =
+								((this.magnitude / 2) * (screenHeight - (2 * y) / 3)) /
+								screenHeight;
+							return (
+								a *
+									Math.sin(
+										((2 * Math.PI) / this.duration) * t + (3 * Math.PI) / 2
+									) +
+								a
+							);
+						};
+					}
+				};
+			};
+
+			LeafScene.prototype.init = function () {
+				for (var i = 0; i < this.options.numLeaves; i++) {
+					var leaf = {
+						el: document.createElement("div"),
+						x: 0,
+						y: 0,
+						z: 0,
+						rotation: {
+							axis: "X",
+							value: 0,
+							speed: 0,
+							x: 0,
+						},
+						xSpeedVariation: 0,
+						ySpeed: 0,
+						path: {
+							type: 1,
+							start: 0,
+						},
+						image: 1,
+					};
+					this._resetLeaf(leaf);
+					this.leaves.push(leaf);
+					this.world.appendChild(leaf.el);
+				}
+
+				this.world.className = "leaf-scene";
+				this.viewport.appendChild(this.world);
+
+				// set perspective
+				this.world.style.webkitPerspective = "400px";
+				this.world.style.MozPerspective = "400px";
+				this.world.style.oPerspective = "400px";
+				this.world.style.perspective = "400px";
+
+				// reset window height/width on resize
+				var self = this;
+				window.onresize = function (event) {
+					self.width = self.viewport.offsetWidth;
+					self.height = self.viewport.offsetHeight;
+				};
+			};
+
+			LeafScene.prototype.render = function () {
+				this._updateWind();
+				for (var i = 0; i < this.leaves.length; i++) {
+					this._updateLeaf(this.leaves[i]);
+				}
+
+				this.timer++;
+
+				requestAnimationFrame(this.render.bind(this));
+			};
+
+			// start up leaf scene
+			var leafContainer = document.querySelector(".falling-leaves"),
+				leaves = new LeafScene(leafContainer);
+
+			leaves.init();
+			leaves.render();
+		</script>
+	</body>
+</html>
