@@ -205,6 +205,49 @@ nav .links a:hover:after {
 	backface-visibility: visible;
 }
 
+.preloader {
+	width: 100vw;
+	height: 100vh;
+
+	background-color: #25295a;
+
+	position: absolute;
+	z-index: 5;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.loader {
+	width: 30vw;
+	height: 3px;
+}
+
+.preloader h3 {
+	color: white;
+	font-weight: 400;
+	font-family: "Lora", sans-serif;
+	text-align: center;
+}
+
+.fill {
+	width: 0%;
+	height: 3px;
+	background-color: white;
+	animation: loading-fill 800ms ease-in forwards;
+}
+
+.loaded {
+	animation: loaded-fill 300ms ease-in-out forwards;
+}
+
+.loadedbody {
+	opacity: 1;
+	animation: loadedbody-anim 300ms ease-in forwards;
+}
+
 @media only screen and (max-width: 600px) {
 	.hero h1 {
 		font-size: 4.5rem;
@@ -241,6 +284,9 @@ nav .links a:hover:after {
 		display: none;
 	}
 
+	nav {
+		margin-top: 1.3rem;
+	}
 	nav .links a {
 		font-size: 1em;
 	}
@@ -256,5 +302,34 @@ nav .links a:hover:after {
 	}
 	100% {
 		opacity: 1;
+	}
+}
+
+@keyframes loading-fill {
+	0% {
+		width: 0%;
+	}
+	100% {
+		width: 70%;
+	}
+}
+
+@keyframes loaded-fill {
+	0% {
+		width: 70%;
+		opacity: 1;
+	}
+	100% {
+		width: 100%;
+		opacity: 0;
+	}
+}
+
+@keyframes loadedbody-anim {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
 	}
 }

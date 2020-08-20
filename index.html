@@ -5,8 +5,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Irene Bou • Portfolio</title>
 		<link rel="stylesheet" href="./style.css" />
+		<link rel="icon" href="./images/favicon.png" type="image/icon type" />
 	</head>
-	<body class="">
+	<body>
+		<div id="preloader" class="preloader">
+			<h3>Loading</h3>
+			<div class="loader">
+				<div class="fill"></div>
+			</div>
+		</div>
+
 		<div class="header">
 			<div class="block"></div>
 		</div>
@@ -47,7 +55,8 @@
 			<div class="hero">
 				<img src="./images/hero.png" alt="" />
 				<h1>
-					<span>I</span><span>r</span><span>e</span><span>n</span><span>e&nbsp;</span><span>B</span><span>o</span><span>u</span>
+					<span>I</span><span>r</span><span>e</span><span>n</span
+					><span>e&nbsp;</span><span>B</span><span>o</span><span>u</span>
 					<!-- Irene Bou -->
 				</h1>
 				<h3>
@@ -89,9 +98,26 @@
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
 		<script>
+			document.addEventListener(
+				"DOMContentLoaded",
+				function () {
+					document.querySelector(".fill").classList.add("loaded");
+					let prelaoder = document.getElementById("preloader");
+					prelaoder.classList.add("loadedbody");
+					document.body.removeChild(prelaoder);
+				},
+				false
+			);
+
 			const div = document.getElementsByTagName("h1");
-			console.log(div[0]);
-			TweenMax.staggerFrom(div[0].children, 0.45, { y: 50, opacity: 0 }, 0.15);
+			setTimeout(() => {
+				TweenMax.staggerFrom(
+					div[0].children,
+					0.45,
+					{ y: 50, opacity: 0 },
+					0.15
+				);
+			}, 300);
 
 			var LeafScene = function (el) {
 				this.viewport = el;
